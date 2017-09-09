@@ -1,0 +1,21 @@
+extends frontend-layout
+append styles
+    // Custom styles for this template
+    link(href='/css/dashboard.css', rel='stylesheet')
+append body
+    +panel-primary("Settings")
+        button.btn.btn-primary(data-toggle="modal",data-target="#newAthleteModal") Create New Athlete
+        +modal("New Athlete","newAthleteModal")
+            if errors
+                for error in errors
+                    div.alert.alert-danger
+                        p #{error.msg}
+            form.form-signin(method='POST' action='/athletes/create')
+                h2.form-signin-heading Create Athlete
+                label.sr-only(for='inputFirstName') First Name
+                input#inputFirstName.form-control(type='text', placeholder='First Name', name="firstName", required='')
+                
+                label.sr-only(for='inputLastName') Last Name
+                input#inputLastName.form-control(type='text', placeholder='Last Name', name="lastName", required='')
+                
+                button.btn.btn-lg.btn-primary.btn-block(type='submit') Submit

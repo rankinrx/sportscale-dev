@@ -1,0 +1,24 @@
+extends header
+append styles
+	// Custom styles for this template
+	link(href='/css/starter-template.css', rel='stylesheet')
+block body
+	+navbar-fixed("SportScale","navbar","inverse")
+		//- If user is not logged in
+		if !user
+			+nav_item("#","active") Home
+			+nav_item("#") About
+			+nav_item("#") Contact
+			+nav_item("/users/login") Login
+			//- +nav_item("/users/register") Register
+		//-  If user is logged in
+		if user
+			+nav_item("/dashboard") Dashboard
+			+nav_item("/dashboard/athletes") Athletes
+			+nav_item("/dashboard/settings") Settings
+			+nav_item("/users/logout") Logout
+		
+
+
+	
+

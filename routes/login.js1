@@ -1,0 +1,17 @@
+var express = require('express');
+var router = express.Router();
+
+/* GET Login page. */
+router.get('/', function(req, res, next) {
+  res.render('sign-in', { data: 'Some Data' });
+});
+
+router.post('/submit', function(req, res, next) {
+    var email = req.body.email;
+    var password = req.body.password;
+    var credientials = {email, password};
+    console.log(credientials);
+    res.redirect('/dashboard/');
+});
+
+module.exports = router;

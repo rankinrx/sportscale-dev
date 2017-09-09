@@ -1,0 +1,28 @@
+extends frontend-layout
+append styles
+    // Custom styles for this template
+    link(href='/css/signin.css', rel='stylesheet')
+append body
+    .container
+        if errors
+            for error in errors
+                div.alert.alert-danger
+                    p #{error.msg}
+        form.form-signin(method='POST' action='/users/register')
+            h2.form-signin-heading User Registration
+            label.sr-only(for='inputName') Name
+            input#inputName.form-control(type='text', placeholder='Name', name="name", required='')
+            
+            label.sr-only(for='inputUsername') Username
+            input#inputUsername.form-control(type='text', placeholder='Username', name="username", required='')
+            
+            label.sr-only(for='inputEmail') Email address
+            input#inputEmail.form-control(type='email', placeholder='Email address', name="email", required='', autofocus='')
+            
+            label.sr-only(for='inputPassword') Password
+            input#inputPassword.form-control(type='password', placeholder='Password', name="password", required='')
+            
+            label.sr-only(for='inputPassword2') Confirm Password
+            input#inputPassword2.form-control(type='password', placeholder='Confirm Password', name="password2")
+            
+            button.btn.btn-lg.btn-primary.btn-block(type='submit') Submit
