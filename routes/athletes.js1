@@ -5,11 +5,6 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var Athlete = require('../models/athlete'); //.. up one directory
 
-// Register
-router.get('/create', function (req, res) {
-  res.render('create');
-});
-
 // Register Athlete
 router.post('/create', function (req, res, next) {
   var fname = req.body.firstName;
@@ -18,7 +13,7 @@ router.post('/create', function (req, res, next) {
   // Check for form errors
   var errors = req.validationErrors();
   if (errors) {
-    res.render('dashbaord-settings', {
+    res.render('/dashboard/athletes', {
       errors: errors
     });
   } else {

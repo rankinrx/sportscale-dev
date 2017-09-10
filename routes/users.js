@@ -51,9 +51,9 @@ router.post('/register', function (req, res) {
       console.log(user);
     });
 
-    req.flash('success_msg', 'You are registered and can now login');
+    req.flash('success_msg', 'New User Registered');
 
-    res.redirect('/users/login');
+    res.redirect('/dashboard/settings');
   }
 });
 
@@ -100,7 +100,7 @@ passport.deserializeUser(function (id, done) {
 });
 
 router.post('/login',
-  passport.authenticate('local', { successRedirect: '/dashboard', failureRedirect: '/users/login', failureFlash: true }),
+  passport.authenticate('local', { successRedirect: '/dashboard/overview', failureRedirect: '/users/login', failureFlash: true }),
   function (req, res) {
     res.redirect('/');
   });

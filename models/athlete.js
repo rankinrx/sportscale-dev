@@ -7,34 +7,64 @@ var AthleteSchema = mongoose.Schema({
 	pid: {
 		type: String
 	},
-	createdate: { 
-		type: Date, 
-		default: Date.now
-	},
 	passcode: {
-		type: Number
+		type: Number,
+		trim: true,
+		default: null
 	},
 	fname: {
-		type: String
+		type: String,
+		trim: true,
+		required: true
 	},
 	lname: {
-		type: String
+		type: String,
+		trim: true,
+		required: true
 	},
 	bday: {
-		type: Date
+		type: Date,
+		default: null
 	},
 	gender: {
-		type: String
+		type: String,
+		default: null
 	},
 	gradyr: {
-		type: Date
+		type: Date,
+		default: null
 	},
 	sport: {
-		type: String
+		type: String,
+		trim: true,
+		default: null
 	},
 	showweight: {
-		type: Boolean
+		type: Boolean,
+		default: true
+	},
+	highrisk: {
+		type: Boolean,
+		default: false
+	},
+	bodyfat: {
+		type: String,
+		default: null
 	}
+});
+
+// Virtual for athlete's full name
+AthleteSchema
+.virtual('name')
+.get(function () {
+  return this.fname + ' ' + this.lname;
+});
+
+// Virtual for author's URL
+AthleteSchema
+.virtual('url')
+.get(function () {
+  return '/dashboard/athlete/' + this._id;
 });
 
 var Athlete = module.exports = mongoose.model('Athlete', AthleteSchema);
@@ -44,4 +74,3 @@ module.exports.createAthlete = function(newAthlete, callback){
 	newAthlete.pid = uniqid();
 	newAthlete.save(callback);
 }
-

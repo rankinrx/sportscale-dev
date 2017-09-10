@@ -1,0 +1,30 @@
+extends ../backend-layout
+append styles
+    // Custom styles for this template
+    link(href='/css/dashboard.css', rel='stylesheet')
+append body
+    .row
+        .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+            +panel-primary(title)
+                button.btn.btn-primary(data-toggle="modal",data-target="#newAthleteModal") Create New Athlete
+                +modal("New Athlete","newAthleteModal")
+                    if errors
+                        for error in errors
+                            div.alert.alert-danger
+                                p #{error.msg}
+                    form.form-signin(method='POST' action='/dashboard/athlete/create')
+                        h2.form-signin-heading Create Athlete
+                        label.sr-only(for='inputFirstName') First Name
+                        input#inputFirstName.form-control(type='text', placeholder='First Name', name="firstName", required='')
+                        
+                        label.sr-only(for='inputLastName') Last Name
+                        input#inputLastName.form-control(type='text', placeholder='Last Name', name="lastName", required='')
+                        
+                        button.btn.btn-lg.btn-primary.btn-block(type='submit') Submit
+                div
+                    ul
+                        each athlete in athlete_list
+                            li 
+                            a(href=athlete.url) #{athlete.name}
+                        else
+                            li There are no athletes.

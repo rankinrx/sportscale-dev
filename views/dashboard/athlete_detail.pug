@@ -1,0 +1,29 @@
+extends ../backend-layout
+append styles
+    // Custom styles for this template
+    link(href='/css/dashboard.css', rel='stylesheet')
+append body
+    .row
+        .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+            +panel-primary(title)
+                h1 Athlete: #{athlete.name}
+                div(style='margin-left:20px;margin-top:20px')
+                    h4 Weight History
+
+                    dl
+                    each weight in athlete_weights
+                        dt 
+                            a(href=weight.url) #{weight.weight}
+                        dd #{weight.type}
+
+                    else
+                        p This athlete has no weight history.
+                hr
+                button.btn.btn-primary(data-toggle="modal",data-target="#deleteAthleteModal") Delete Athlete
+                +modal("Delete Athlete","deleteAthleteModal")
+                    form.form-signin(method='POST' action=athlete.url+'/delete')
+                        h2.form-signin-heading Delete Athlete: #{athlete.name}
+                        input#athleteid.form-control(type='hidden',name='athleteid', required='true', value=athlete._id )
+                        button.btn.btn-lg.btn-primary.btn-block(type='submit') Delete
+                p
+                    a(href=athlete.url+'/update') Update athlete

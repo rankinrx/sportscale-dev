@@ -1,24 +1,32 @@
 var express = require('express');
 var router = express.Router();
 
-var Athlete = require('../models/athlete');
+// Require controller modules
+var athlete_controller = require('../controllers/athleteController');
+
 
 /* GET Dashboard page. */
-router.get('/', ensureAuthenticated, function (req, res, next) {
-  res.render('dashboard', { title: 'SportScale' });
+router.get('/overview', ensureAuthenticated, function (req, res, next) {
+  res.render('dashboard/overview', { title: 'SportScale' });
 });
 
-router.get('/athletes', ensureAuthenticated, function (req, res, next) {
-  Athlete.find(function(err, athletes) {
-    if (err) return next(err);
-    res.render('dashboard-athletes', {
-      athletes: athletes
-    })
-  });
-});
+/// ATHLETE ROUTES ///
+
+/* POST request for creating Athlete. */
+router.post('/athlete/create', ensureAuthenticated, athlete_controller.athlete_create_get);
+
+// POST request to delete Athlete
+router.post('/athlete/:id/delete', ensureAuthenticated, athlete_controller.athlete_delete_post);
+
+/* GET request for one Athlete (/dashboard/athlete/{id} ). */
+router.get('/athlete/:id', ensureAuthenticated, athlete_controller.athlete_detail);
+
+/* GET request for list of all Athletes (/dashboard/athletes). */
+router.get('/athletes', ensureAuthenticated, athlete_controller.athlete_list);
+
 
 router.get('/settings', ensureAuthenticated, function (req, res, next) {
-  res.render('dashboard-settings', { title: 'SportScale' });
+  res.render('dashboard/settings', { title: 'SportScale' });
 });
 
 function ensureAuthenticated(req, res, next) {

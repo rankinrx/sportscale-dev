@@ -4,7 +4,7 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+var bodyParser = require('body-parser');  // Allows JSON to be sent to the server
 
 // Added for login validation:
 var session = require('express-session');
@@ -15,7 +15,9 @@ var mongo = require('mongodb');
 var mongoose = require('mongoose');
 var flash = require('connect-flash');
 
-// Connect to Mongo Database
+var app = express();
+
+// Mongo Database Setup
 mongoose.connect('mongodb://admin:admin@ds151973.mlab.com:51973/sportscale-v1', {
   useMongoClient: true,
 });
@@ -25,11 +27,9 @@ var db = mongoose.connection;
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var dashboard = require('./routes/dashboard');
-var athletes = require('./routes/athletes');
+//var athletes = require('./routes/athletes');
 
-var app = express();
-
-// view engine setup
+// View Engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
@@ -53,7 +53,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Express Validator
+// Express Validator (validate forms)
 app.use(expressValidator({
   errorFormatter: function(param, msg, value) {
       var namespace = param.split('.')
@@ -86,7 +86,7 @@ app.use(function (req, res, next) {
 app.use('/', routes);
 app.use('/users', users);
 app.use('/dashboard', dashboard);
-app.use('/athletes', athletes);
+//app.use('/athletes', athletes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -96,7 +96,6 @@ app.use(function(req, res, next) {
 });
 
 // error handlers
-
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
