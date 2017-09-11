@@ -73,9 +73,9 @@ exports.athlete_create_post = function (req, res) {
 };
 
 // Display athlete delete form on GET
-exports.athlete_delete_get = function (req, res) {
+// exports.athlete_delete_get = function (req, res) {
 
-};
+// };
 
 // Handle athlete delete on POST
 exports.athlete_delete_post = function (req, res) {
@@ -111,10 +111,66 @@ exports.athlete_delete_post = function (req, res) {
 
 // Display athlete update form on GET
 exports.athlete_update_get = function (req, res) {
-    res.send('NOT IMPLEMENTED: athlete update GET');
+
+    req.sanitize('id').escape();
+    req.sanitize('id').trim();
+    Athlete.findById(req.params.id, function(err, athlete) {
+        if (err) { return next(err); }
+        //On success
+        res.render('dashboard/athlete_form', { title: 'Update Athlete', athlete: athlete });
+
+    });
 };
 
 // Handle athlete update on POST
 exports.athlete_update_post = function (req, res) {
-    res.send('NOT IMPLEMENTED: athlete update POST');
+
+    req.sanitize('id').escape();
+    req.sanitize('id').trim();
+
+    req.checkBody('fname', 'First name must be specified.').notEmpty();
+    req.checkBody('lname', 'Last name must be specified.').notEmpty();
+    req.checkBody('lname', 'Last name must be alphanumeric text.').isAlpha();
+    req.sanitize('fname').escape();
+    req.sanitize('lname').escape();
+    req.sanitize('fname').trim();
+    req.sanitize('lname').trim();
+    req.sanitize('sport').trim();
+    req.sanitize('gender').trim();
+    req.sanitize('passcode').trim();
+    req.sanitize('bday').toDate();
+    req.sanitize('gradyr').toDate();
+
+    //Run the validators
+    var errors = req.validationErrors();
+
+    //Create a author object with escaped and trimmed data (and the old id!)
+    var athlete = new Athlete(
+      {
+      fname: req.body.fname,
+      lname: req.body.lname,
+      bday: req.body.bday,
+      gender: req.body.gender,
+      sport: req.body.sport,
+      passcode: req.body.passcode,
+      gradyr: req.body.gradyr,
+      _id: req.params.id
+      }
+    );
+
+    if (errors) {
+        //If there are errors render the form again, passing the previously entered values and errors
+        res.render('athlete_form', { title: 'Update Athlete', athlete: athlete, errors: errors});
+    return;
+    }
+    else {
+        // Data from form is valid. Update the record.
+        Athlete.findByIdAndUpdate(req.params.id, athlete, {}, function (err,theathlete) {
+            if (err) { return next(err); }
+               //successful - redirect to genre detail page.
+               res.redirect(theathlete.url);
+            });
+    }
+
+
 };

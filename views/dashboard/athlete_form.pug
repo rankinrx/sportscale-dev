@@ -1,0 +1,48 @@
+extends ../backend-layout
+append styles
+    // Custom styles for this template
+    link(href='/css/dashboard.css', rel='stylesheet')
+append body
+    .row
+        .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+            +panel-primary(title)
+                form(method='POST' action='')
+                    div.form-group
+                    label(for='fname') First Name:
+                    input#fname.form-control(type='text', placeholder='First name' name='fname' required='true' value=(undefined===athlete ? '' : athlete.fname))
+                    label(for='lname') Last Name:
+                    input#lname.form-control(type='text', placeholder='Last name' name='lname' required='true' value=(undefined===athlete ? '' : athlete.lname))
+                    
+                    div.form-group
+                    label(for='bday') Birthday:
+                    input#bday.form-control(type='date', name='bday' value=(undefined===athlete ? '' : athlete.bday_yyyy_mm_dd))
+                    
+                    div.form-group
+                    label(for='gender') Gender:
+                    input#gender.form-control(type='text', placeholder='Gender' name='gender' value=(undefined===athlete ? '' : athlete.gender))
+
+                    div.form-group
+                    label(for='gradyr') Graduation Year:
+                    input#gradyr.form-control(type='date', name='gradyr' value=(undefined===athlete ? '' : athlete.gradyr_yyyy_mm_dd))
+
+                    div.form-group
+                    label(for='sport') Sport:
+                    input#sport.form-control(type='text', placeholder='Active Sport' name='sport' value=(undefined===athlete ? '' : athlete.sport))
+
+                    div.form-group
+                    label Show Weight:
+                    input.checkbox-input(type='checkbox', name='showweight')
+
+                    div.form-group
+                    label High Risk: 
+                    input.checkbox-input(type='checkbox', name='highrisk')
+
+                    div.form-group
+                    label(for='passcode') Passcode: 
+                    input#passcode.form-control(type='number', name='passcode' value=(undefined===athlete ? '' : athlete.passcode))
+                    button.btn.btn-primary(type='submit') Submit
+
+                if errors 
+                    ul
+                    for error in errors
+                        li!= error.msg

@@ -25,5 +25,7 @@ append body
                         h2.form-signin-heading Delete Athlete: #{athlete.name}
                         input#athleteid.form-control(type='hidden',name='athleteid', required='true', value=athlete._id )
                         button.btn.btn-lg.btn-primary.btn-block(type='submit') Delete
+                
+                button.btn.btn-primary(href=athlete.url+'/update') Update athlete
                 p
                     a(href=athlete.url+'/update') Update athlete

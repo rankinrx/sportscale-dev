@@ -1,12 +1,8 @@
 var mongoose = require('mongoose');
-var moment = require('moment');
-var uniqid = require('uniqid');
+var moment = require('moment'); //for date handling
 
 // Athlete Profile Schema
 var AthleteSchema = mongoose.Schema({
-	pid: {
-		type: String
-	},
 	passcode: {
 		type: Number,
 		trim: true,
@@ -67,10 +63,23 @@ AthleteSchema
   return '/dashboard/athlete/' + this._id;
 });
 
+// Virtual for athletes birthday (for proper formating)
+AthleteSchema
+.virtual('bday_yyyy_mm_dd')
+.get(function () {
+  return moment(this.bday).format('YYYY-MM-DD');
+});
+
+// Virtual for athletes graduation year (for proper formating)
+AthleteSchema
+.virtual('gradyr_yyyy_mm_dd')
+.get(function () {
+  return moment(this.gradyr).format('YYYY-MM-DD');
+});
+
 var Athlete = module.exports = mongoose.model('Athlete', AthleteSchema);
 // Items Needed for new athlete: fname, lname, bday
 
 module.exports.createAthlete = function(newAthlete, callback){
-	newAthlete.pid = uniqid();
 	newAthlete.save(callback);
 }
