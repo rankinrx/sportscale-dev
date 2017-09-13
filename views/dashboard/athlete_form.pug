@@ -31,11 +31,11 @@ append body
 
                     div.form-group
                     label Show Weight:
-                    input.checkbox-input(type='checkbox', name='showweight')
+                    input.checkbox-input(type='checkbox', name='showweight', value=(undefined===athlete ? '' :athlete.showweight))
 
                     div.form-group
-                    label High Risk: 
-                    input.checkbox-input(type='checkbox', name='highrisk')
+                    label High Risk:
+                    input.checkbox-input(type='checkbox', name='highrisk', value=(athlete.highrisk))
 
                     div.form-group
                     label(for='passcode') Passcode: 

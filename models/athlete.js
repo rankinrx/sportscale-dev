@@ -46,6 +46,9 @@ var AthleteSchema = mongoose.Schema({
 	bodyfat: {
 		type: String,
 		default: null
+	},
+	school: {
+		type: String
 	}
 });
 

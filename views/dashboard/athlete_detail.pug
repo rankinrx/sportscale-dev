@@ -3,29 +3,63 @@ append styles
     // Custom styles for this template
     link(href='/css/dashboard.css', rel='stylesheet')
 append body
-    .row
-        .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
-            +panel-primary(title)
+    .container-fluid
+        .row
+            .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
                 h1 Athlete: #{athlete.name}
-                div(style='margin-left:20px;margin-top:20px')
-                    h4 Weight History
+                .row
+                    .col-md-3
+                        p School: ADD
+                        p Gender: #{athlete.male}
+                    .col-md-3
+                        p Graduation Year: #{athlete.gradyr_yyyy_mm_dd}
+                        p Birthday: #{athlete.bday_yyyy_mm_dd}
 
-                    dl
-                    each weight in athlete_weights
-                        dt 
-                            a(href=weight.url) #{weight.weight}
-                        dd #{weight.type}
-
-                    else
-                        p This athlete has no weight history.
+                    .col-md-3
+                        p Sport: #{athlete.sport}
+                        p Passcode: #{athlete.passcode}
                 hr
-                button.btn.btn-primary(data-toggle="modal",data-target="#deleteAthleteModal") Delete Athlete
-                +modal("Delete Athlete","deleteAthleteModal")
-                    form.form-signin(method='POST' action=athlete.url+'/delete')
-                        h2.form-signin-heading Delete Athlete: #{athlete.name}
-                        input#athleteid.form-control(type='hidden',name='athleteid', required='true', value=athlete._id )
-                        button.btn.btn-lg.btn-primary.btn-block(type='submit') Delete
-                
-                button.btn.btn-primary(href=athlete.url+'/update') Update athlete
-                p
-                    a(href=athlete.url+'/update') Update athlete
+                .row 
+                    .col-md-6
+                        +panel-default('Activity log')
+                            ul.list-group
+                                li.list-group-item Some Notification
+                                li.list-group-item Some Other Notification
+                                li.list-group-item Some Other Notification
+                    .col-md-6
+                        +panel-default(athlete.fname+ `'s Settings`)
+                            .row
+                                .col-md-12
+                                    h4 Show Weight:
+                                    label.switch
+                                        input(type='checkbox', name='showweight')
+                                        span.slider.round
+                                .col-md-12
+                                    form.form-inline
+                                        label.sr-only(for='passcodeInput') Passcode
+                                        input#passcodeInput.form-control.mb-2.mr-sm-2.mb-sm-0(type='text', name='passcode', placeholder='Passcode')
+
+                                        button.btn.btn-primary(type='submit') Save
+
+                .row
+                    .col-md-12
+                        +panel-default('Weight History')
+                            dl
+                            each weight in athlete_weights
+                                dt 
+                                    a(href=weight.url) #{weight.weight}
+                                dd #{weight.type}
+
+                            else
+                                p This athlete has no weight history.
+                hr
+                .row
+                    .col-md-12
+                        button.btn.btn-primary.pull-right(data-toggle="modal",data-target="#deleteAthleteModal") Delete Athlete
+                        +modal("Delete Athlete","deleteAthleteModal")
+                            form.form-signin(method='POST' action=athlete.url+'/delete')
+                                h2.form-signin-heading Delete Athlete: #{athlete.name}
+                                input#athleteid.form-control(type='hidden',name='athleteid', required='true', value=athlete._id )
+                                button.btn.btn-lg.btn-primary.btn-block(type='submit') Delete
+
+                        a.btn.btn-primary.pull-right(href=athlete.url+'/update') Update athlete

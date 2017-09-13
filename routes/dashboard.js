@@ -18,10 +18,10 @@ router.post('/athlete/create', ensureAuthenticated, athlete_controller.athlete_c
 // POST request to delete Athlete
 router.post('/athlete/:id/delete', ensureAuthenticated, athlete_controller.athlete_delete_post);
 
-/* GET request to update Author. */
+/* GET request to update Author. (/dashboard/athlete/{id}/update)*/
 router.get('/athlete/:id/update', ensureAuthenticated, athlete_controller.athlete_update_get);
 
-// POST request to update Author
+/* POST request to update Author  (/dashboard/athlete/{id}/update)*/
 router.post('/athlete/:id/update', ensureAuthenticated, athlete_controller.athlete_update_post);
 
 /* GET request for one Athlete (/dashboard/athlete/{id} ). */
