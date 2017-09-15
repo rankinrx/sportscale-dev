@@ -1,0 +1,17 @@
+[ 
+    {
+        "athlete": {"$oid": "59b59f4fe8e3e42df1de0dcf"}, "weight" : 100.7, "type" : "IN"
+    },
+    {
+        "athlete": {"$oid": "59b59f4fe8e3e42df1de0dcf"}, "weight" : 105.7, "type" : "OUT"
+    },
+    {
+        "athlete": {"$oid": "59b59f4fe8e3e42df1de0dcf"}, "weight" : 104.7, "type" : "IN"
+    },
+    {
+        "athlete": {"$oid": "59b59f4fe8e3e42df1de0dcf"}, "weight" : 103.7, "type" : "IN"
+    },
+    {
+        "athlete": {"$oid": "59b59f4fe8e3e42df1de0dcf"}, "weight" : 102.7, "type" : "IN"
+    }
+  ]

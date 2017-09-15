@@ -10,14 +10,13 @@ append body
                 .row
                     .col-md-3
                         p School: ADD
-                        p Gender: #{athlete.male}
+                        p Gender: #{athlete.gender}
                     .col-md-3
-                        p Graduation Year: #{athlete.gradyr_yyyy_mm_dd}
+                        p Graduation Year: #{athlete.gradyr_yyyy}
                         p Birthday: #{athlete.bday_yyyy_mm_dd}
 
                     .col-md-3
                         p Sport: #{athlete.sport}
-                        p Passcode: #{athlete.passcode}
                 hr
                 .row 
                     .col-md-6
@@ -29,18 +28,24 @@ append body
                     .col-md-6
                         +panel-default(athlete.fname+ `'s Settings`)
                             .row
-                                .col-md-12
-                                    h4 Show Weight:
-                                    label.switch
-                                        input(type='checkbox', name='showweight')
-                                        span.slider.round
-                                .col-md-12
-                                    form.form-inline
-                                        label.sr-only(for='passcodeInput') Passcode
-                                        input#passcodeInput.form-control.mb-2.mr-sm-2.mb-sm-0(type='text', name='passcode', placeholder='Passcode')
-
-                                        button.btn.btn-primary(type='submit') Save
-
+                                form(method='POST' action='')
+                                    .col-md-4
+                                        label(for='showweight') Show Weight:
+                                        br
+                                        label.switch
+                                            input(type="checkbox", name="showweight", checked=(true===false ? "checked" : athlete.showweight))
+                                            span.slider.round
+                                        br
+                                        label(for='highrisk') High Risk:
+                                        br
+                                        label.switch
+                                            input(type="checkbox", name="highrisk", checked=(true===false ? "checked" : athlete.highrisk))
+                                            span.slider.round
+                                    .col-md-8
+                                        form.form-inline
+                                            label(for='passcode') Passcode:
+                                            input#passcode.form-control(type='text', name='passcode' value=(undefined===athlete ? '' : athlete.passcode))
+                                            button.btn.btn-primary(type='submit') Submit
                 .row
                     .col-md-12
                         +panel-default('Weight History')
@@ -49,6 +54,7 @@ append body
                                 dt 
                                     a(href=weight.url) #{weight.weight}
                                 dd #{weight.type}
+                                dd #{weight.time_yyyy_mm_dd}
 
                             else
                                 p This athlete has no weight history.

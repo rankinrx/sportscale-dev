@@ -24,7 +24,7 @@ var AthleteSchema = mongoose.Schema({
 	},
 	gender: {
 		type: String,
-		default: null
+		enum: ["Male", "Female"]
 	},
 	gradyr: {
 		type: Date,
@@ -75,9 +75,9 @@ AthleteSchema
 
 // Virtual for athletes graduation year (for proper formating)
 AthleteSchema
-.virtual('gradyr_yyyy_mm_dd')
+.virtual('gradyr_yyyy')
 .get(function () {
-  return moment(this.gradyr).format('YYYY-MM-DD');
+  return moment(this.gradyr).format('YYYY');
 });
 
 var Athlete = module.exports = mongoose.model('Athlete', AthleteSchema);

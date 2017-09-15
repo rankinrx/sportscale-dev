@@ -19,11 +19,19 @@ append body
                     
                     div.form-group
                     label(for='gender') Gender:
-                    input#gender.form-control(type='text', placeholder='Gender' name='gender' value=(undefined===athlete ? '' : athlete.gender))
+                    //- input#gender.form-control(type='text', placeholder='Gender' name='gender' value=(undefined===athlete ? '' : athlete.gender))
+                    select#gender.form-control(type='select', placeholder='Select athlete' name='gender' )
+                        if athlete.gender == null
+                            option(value='', selected='selected') Select One
+                            each gender in genders
+                                option= gender
+                        else
+                            each gender in genders
+                                option= gender
 
                     div.form-group
                     label(for='gradyr') Graduation Year:
-                    input#gradyr.form-control(type='date', name='gradyr' value=(undefined===athlete ? '' : athlete.gradyr_yyyy_mm_dd))
+                    input#gradyr.form-control(type='number', name='gradyr' placeholder='yyyy' value=(undefined===athlete ? '' : athlete.gradyr_yyyy))
 
                     div.form-group
                     label(for='sport') Sport:
@@ -31,15 +39,15 @@ append body
 
                     div.form-group
                     label Show Weight:
-                    input.checkbox-input(type='checkbox', name='showweight', value=(undefined===athlete ? '' :athlete.showweight))
+                    input#showweight.checkbox-input(type='checkbox', name='showweight', checked=(true===false ? "checked" : athlete.showweight))
 
                     div.form-group
                     label High Risk:
-                    input.checkbox-input(type='checkbox', name='highrisk', value=(athlete.highrisk))
+                    input#highrisk.checkbox-input(type='checkbox', name='highrisk', checked=(true===false ? "checked" : athlete.highrisk))
 
                     div.form-group
                     label(for='passcode') Passcode: 
-                    input#passcode.form-control(type='number', name='passcode' value=(undefined===athlete ? '' : athlete.passcode))
+                    input#passcode.form-control(type='number', name='passcode'  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength = "7" value=(undefined===athlete ? '' : athlete.passcode))
                     button.btn.btn-primary(type='submit') Submit
 
                 if errors 

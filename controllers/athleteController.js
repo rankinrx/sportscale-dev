@@ -31,7 +31,6 @@ exports.athlete_detail = function (req, res) {
         if (err) { return next(err); }
         //Successful, so render
         res.render('dashboard/athlete_detail', { 
-            title: 'Athlete Detail', 
             athlete: results.athlete, 
             athlete_weights: results.athletes_weights
         });
@@ -117,7 +116,7 @@ exports.athlete_update_get = function (req, res) {
     Athlete.findById(req.params.id, function(err, athlete) {
         if (err) { return next(err); }
         //On success
-        res.render('dashboard/athlete_form', { title: 'Update Athlete', athlete: athlete });
+        res.render('dashboard/athlete_form', { title: 'Update Athlete', athlete: athlete, genders: Athlete.schema.path('gender').enumValues });
 
     });
 };
@@ -154,6 +153,8 @@ exports.athlete_update_post = function (req, res) {
       sport: req.body.sport,
       passcode: req.body.passcode,
       gradyr: req.body.gradyr,
+      highrisk: req.body.highrisk  || false, 
+      showweight: req.body.showweight  || false,
       _id: req.params.id
       }
     );

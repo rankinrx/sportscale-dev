@@ -10,7 +10,7 @@ var WeightSchema = mongoose.Schema({
 		required: true
 	},
 	weight: {
-		type: String,
+		type: Number,
 		required: true
 	},
 	type: {
@@ -21,10 +21,19 @@ var WeightSchema = mongoose.Schema({
 
 // Virtual for this book instance URL
 WeightSchema
-.virtual('url')
-.get(function () {
-  return '/dashboard/weight/'+this._id;
-});
+	.virtual('url')
+	.get(function () {
+		return '/dashboard/weight/' + this._id;
+	});
+
+// Virtual for date weight was created
+WeightSchema
+	.virtual('time_yyyy_mm_dd')
+	.get(function () {
+		time = this._id.getTimestamp();
+		return time
+		//return moment(time).format('YYYY-MM-DD');
+	});
 
 var Weight = module.exports = mongoose.model('Weight', WeightSchema);
 
