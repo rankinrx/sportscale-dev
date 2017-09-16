@@ -1,4 +1,10 @@
 /*
+ * CSS Notes
+ * - grid system has four classes: xs (phones), sm (tablets), md (desktops), and lg (larger desktops)
+ * - Move columns to the right using .col-md-offset-* classes. These classes increase the left margin of a column by * columns:
+ */
+
+/*
  * Base structure
  */
 
@@ -103,6 +109,7 @@ body {
   display: inline-block;
   border-radius: 50%;
 }
+.top-buffer { margin-top:20px; }
 
 
 

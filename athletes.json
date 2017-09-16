@@ -1,0 +1,2 @@
+{"_id":{"$oid":"59b59f4fe8e3e42df1de0dcf"},"pid":"4b5ka092pj7f6t4cv","fname":"Bob","lname":"Rankin","bodyfat":null,"highrisk":true,"showweight":false,"sport":"","gradyr":null,"bday":null,"passcode":null,"__v":0,"gender":"Male"}
+{"_id":{"$oid":"59b5dde73ef10a3c89808e2a"},"fname":"Jerry","lname":"Brady","bodyfat":null,"highrisk":false,"showweight":true,"sport":"baseball","gradyr":{"$date":"2017-09-03T00:00:00.000Z"},"gender":"Male","bday":{"$date":"2017-09-10T00:00:00.000Z"},"passcode":111111,"__v":0}

@@ -6,16 +6,30 @@ append body
 	.row
 		.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
 			h1.page-header Dashboard
-			.row.placeholder
-				.col-sm-4.placeholder
-					h3 Notifications
-					ul
-						p #{notificaitons}
-
-				.col-sm-8.placeholder
-					h3 Important Incidents
 			.row
-				.col-sm-6.placeholder
-					h3 Notes
-				.col-sm-6.placeholder
-					h3 Live Feed					
+				.col-sm-4
+					+panel-default('Notifications')
+						ul.list-group
+							li.list-group-item 8/7 John Doe was deydrated
+							li.list-group-item 8/6 John Doe didnt weigh out
+							li.list-group-item Some Other Notification
+				.col-sm-8
+					+panel-default('Important Incidents')
+						p This is a calender... cant you see it?
+						br
+						br
+						br
+			.row
+				.col-sm-6
+					+panel-default('Notes')
+						ul.list-group
+							li.list-group-item Make sure John Doe gets checked in the morning before practice.
+							li.list-group-item Some Other Note
+							li.list-group-item Some Other Note
+				.col-sm-6
+					+panel-default('Live Feed')
+						ul.list-group
+							li.list-group-item 8/7 3:30 PM: John Doe, Weighed Out
+							li.list-group-item 8/7 11:00 AM: John Doe, Weighed In
+							li.list-group-item 8/6 2:00 PM: John Doe, Weighed In
+							li.list-group-item 8/5 5:15 PM: John Doe, was Weighed

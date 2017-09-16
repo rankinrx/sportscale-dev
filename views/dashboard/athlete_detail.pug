@@ -29,23 +29,19 @@ append body
                         +panel-default(athlete.fname+ `'s Settings`)
                             .row
                                 form(method='POST' action='')
-                                    .col-md-4
+                                    .col-md-3
                                         label(for='showweight') Show Weight:
                                         br
                                         label.switch
                                             input(type="checkbox", name="showweight", checked=(true===false ? "checked" : athlete.showweight))
                                             span.slider.round
-                                        br
+                                        
+                                    .col-md-3
                                         label(for='highrisk') High Risk:
                                         br
                                         label.switch
                                             input(type="checkbox", name="highrisk", checked=(true===false ? "checked" : athlete.highrisk))
                                             span.slider.round
-                                    .col-md-8
-                                        form.form-inline
-                                            label(for='passcode') Passcode:
-                                            input#passcode.form-control(type='text', name='passcode' value=(undefined===athlete ? '' : athlete.passcode))
-                                            button.btn.btn-primary(type='submit') Submit
                 .row
                     .col-md-12
                         +panel-default('Weight History')

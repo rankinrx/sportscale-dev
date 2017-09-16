@@ -17,8 +17,9 @@ var flash = require('connect-flash');
 
 var app = express();
 
-// Mongo Database Setup mongodb://localhost:27017/sportscale  
-mongoose.connect('mongodb://admin:admin@ds151973.mlab.com:51973/sportscale-v1', {
+// Mongo Database Setup 
+mongoose.connect('mongodb://localhost:27017/sportscale', {
+//mongoose.connect('mongodb://admin:admin@ds151973.mlab.com:51973/sportscale-v1', {
   useMongoClient: true,
 });
 var db = mongoose.connection;

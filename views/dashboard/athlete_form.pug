@@ -19,7 +19,6 @@ append body
                     
                     div.form-group
                     label(for='gender') Gender:
-                    //- input#gender.form-control(type='text', placeholder='Gender' name='gender' value=(undefined===athlete ? '' : athlete.gender))
                     select#gender.form-control(type='select', placeholder='Select athlete' name='gender' )
                         if athlete.gender == null
                             option(value='', selected='selected') Select One

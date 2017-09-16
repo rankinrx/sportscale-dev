@@ -5,28 +5,34 @@ append styles
 append body
     .row
         .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
-            +panel-primary("Settings")
-                button.btn.btn-primary(data-toggle="modal",data-target="#newUserModal") Create New User
-                +modal("New User","newUserModal")
-                    if errors
-                        for error in errors
-                            div.alert.alert-danger
-                                p #{error.msg}
-                    form.form-signin(method='POST' action='/users/register')
-                        h2.form-signin-heading User Registration
-                        label.sr-only(for='inputName') Name
-                        input#inputName.form-control(type='text', placeholder='Name', name="name", required='')
+            h1.page-header Settings
+                .row
+                    .col-md-12
+                        +panel-default("Alert Messages")
                         
-                        label.sr-only(for='inputUsername') Username
-                        input#inputUsername.form-control(type='text', placeholder='Username', name="username", required='')
-                        
-                        label.sr-only(for='inputEmail') Email address
-                        input#inputEmail.form-control(type='email', placeholder='Email address', name="email", required='', autofocus='')
-                        
-                        label.sr-only(for='inputPassword') Password
-                        input#inputPassword.form-control(type='password', placeholder='Password', name="password", required='')
-                        
-                        label.sr-only(for='inputPassword2') Confirm Password
-                        input#inputPassword2.form-control(type='password', placeholder='Confirm Password', name="password2")
-                        
-                        button.btn.btn-lg.btn-primary.btn-block(type='submit') Submit
+                    .col-md-12
+                        +panel-default("Backend Settings")
+                            button.btn.btn-primary(data-toggle="modal",data-target="#newUserModal") Create New User
+                            +modal("New User","newUserModal")
+                                if errors
+                                    for error in errors
+                                        div.alert.alert-danger
+                                            p #{error.msg}
+                                form.form-signin(method='POST' action='/users/register')
+                                    h2.form-signin-heading User Registration
+                                    label.sr-only(for='inputName') Name
+                                    input#inputName.form-control(type='text', placeholder='Name', name="name", required='')
+                                    
+                                    label.sr-only(for='inputUsername') Username
+                                    input#inputUsername.form-control(type='text', placeholder='Username', name="username", required='')
+                                    
+                                    label.sr-only(for='inputEmail') Email address
+                                    input#inputEmail.form-control(type='email', placeholder='Email address', name="email", required='', autofocus='')
+                                    
+                                    label.sr-only(for='inputPassword') Password
+                                    input#inputPassword.form-control(type='password', placeholder='Password', name="password", required='')
+                                    
+                                    label.sr-only(for='inputPassword2') Confirm Password
+                                    input#inputPassword2.form-control(type='password', placeholder='Confirm Password', name="password2")
+                                    
+                                    button.btn.btn-lg.btn-primary.btn-block(type='submit') Submit

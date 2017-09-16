@@ -6,24 +6,44 @@ append body
     .row
         .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
             +panel-primary(title)
-                button.btn.btn-primary(data-toggle="modal",data-target="#newAthleteModal") New Athlete
-                +modal("Create a new athlete","newAthleteModal")
-                    if errors
-                        for error in errors
-                            div.alert.alert-danger
-                                p #{error.msg}
-                    form.form-signin(method='POST' action='/dashboard/athlete/create')
-                        label.sr-only(for='inputFirstName') First Name
-                        input#inputFirstName.form-control(type='text', placeholder='First Name', name="firstName", required='')
-                        
-                        label.sr-only(for='inputLastName') Last Name
-                        input#inputLastName.form-control(type='text', placeholder='Last Name', name="lastName", required='')
-                        
-                        button.btn.btn-lg.btn-primary.btn-block(type='submit') Submit
-                div
-                    ul
-                        each athlete in athlete_list
-                            li 
-                            a(href=athlete.url) #{athlete.name}
-                        else
-                            li There are no athletes.
+                .row
+                    .col-md-12
+                        .col-md-3
+                            .input-group
+                                input.form-control(type='text')
+                                span.input-group-btn
+                                    button.btn.btn-default(type='button') Search
+                        .col-md-9
+                            .btn-toolbar
+                                .btn-group
+                                button.btn.btn-primary(data-toggle='modal', data-target='#newAthleteModal' ) New Athlete
+                                .btn-group
+                                button.btn.dropdown-toggle(data-toggle='dropdown', href='#' )
+                                    | Columns
+                                    span.caret
+                                .btn-group
+                                button.btn.dropdown-toggle(data-toggle='dropdown', href='#' )
+                                    | Filter
+                                    span.caret
+
+                            +modal("Create a new athlete","newAthleteModal")
+                                if errors
+                                    for error in errors
+                                        div.alert.alert-danger
+                                            p #{error.msg}
+                                form.form-signin(method='POST' action='/dashboard/athlete/create')
+                                    label.sr-only(for='inputFirstName') First Name
+                                    input#inputFirstName.form-control(type='text', placeholder='First Name', name="firstName", required='')
+                                    
+                                    label.sr-only(for='inputLastName') Last Name
+                                    input#inputLastName.form-control(type='text', placeholder='Last Name', name="lastName", required='')
+                                    
+                                    button.btn.btn-lg.btn-primary.btn-block(type='submit') Submit
+                .row.top-buffer
+                    .col-md-12
+                        ul.list-group
+                            each athlete in athlete_list
+                                li.list-group-item
+                                    a(href=athlete.url) #{athlete.name}
+                            else
+                                li.list-group-item There are no athletes.
