@@ -5,11 +5,38 @@ append styles
 append body
     .row
         .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
-            h1.page-header Settings
+            h1.page-header #{title}
+            p
+                | When using the Pre/Post feature of the SportScale, a user might encounter a situation
+                | where they have fallen below a desired percentage of weight before and after a physical activity. 
+                | Adjust the following settings to accomodate your recommendations.
+                hr
                 .row
                     .col-md-12
                         +panel-default("Alert Messages")
-                        
+                            .col-md-6
+                                .row
+                                    form(method='POST' action='')
+                                        label(for='ioMessageInput').lb-md Activity: In/Out
+                                        .form-group.input-group
+                                            span.input-group-addon Message:
+                                            input#ioMessageInput.form-control(type='text' name='ioMessage' value=(undefined===athlete ? '' : athlete.fname))
+                                        .form-group.input-group
+                                            span.input-group-addon At a weight loss of 
+                                            input#ioPercentInput.form-control(type='number')
+                                            span.input-group-addon %
+                                        label(for='iiMessageInput').lb-md Activity: In/In
+                                        .form-group.input-group
+                                            span.input-group-addon Message:
+                                            input#iiMessageInput.form-control(type='text')
+                                        .form-group.input-group
+                                            span.input-group-addon At a weight loss of 
+                                            input#iiPercentInput.form-control(type='number')
+                                            span.input-group-addon %
+                                        .form-group
+                                            button.btn.btn-primary(type='submit') Save
+
+                            
                     .col-md-12
                         +panel-default("Backend Settings")
                             button.btn.btn-primary(data-toggle="modal",data-target="#newUserModal") Create New User

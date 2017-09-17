@@ -81,8 +81,4 @@ AthleteSchema
 });
 
 var Athlete = module.exports = mongoose.model('Athlete', AthleteSchema);
-// Items Needed for new athlete: fname, lname, bday
 
-module.exports.createAthlete = function(newAthlete, callback){
-	newAthlete.save(callback);
-}

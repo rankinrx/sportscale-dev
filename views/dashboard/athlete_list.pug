@@ -5,7 +5,8 @@ append styles
 append body
     .row
         .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
-            +panel-primary(title)
+            h1.page-header #{title}
+            +panel-default
                 .row
                     .col-md-12
                         .col-md-3
@@ -31,7 +32,7 @@ append body
                                     for error in errors
                                         div.alert.alert-danger
                                             p #{error.msg}
-                                form.form-signin(method='POST' action='/dashboard/athlete/create')
+                                form(method='POST' action='/dashboard/athlete/create')
                                     label.sr-only(for='inputFirstName') First Name
                                     input#inputFirstName.form-control(type='text', placeholder='First Name', name="firstName", required='')
                                     

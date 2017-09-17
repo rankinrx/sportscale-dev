@@ -1,6 +1,0 @@
-{
-    "GCLOUD_PROJECT": "sportscaledev",
-    "DATA_BACKEND": "mongodb",
-    "MONGO_URL": "mongodb://<dbuser>:<dbpassword>@ds151973.mlab.com:51973/sportscale-v1",
-    "MONGO_COLLECTION": "books"
-  }
