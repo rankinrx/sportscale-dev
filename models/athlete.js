@@ -27,7 +27,7 @@ var AthleteSchema = mongoose.Schema({
 		enum: ["Male", "Female"]
 	},
 	gradyr: {
-		type: Date,
+		type: Number,
 		default: null
 	},
 	sport: {
@@ -42,10 +42,6 @@ var AthleteSchema = mongoose.Schema({
 	highrisk: {
 		type: Boolean,
 		default: false
-	},
-	bodyfat: {
-		type: String,
-		default: null
 	},
 	school: {
 		type: String
@@ -70,14 +66,7 @@ AthleteSchema
 AthleteSchema
 .virtual('bday_yyyy_mm_dd')
 .get(function () {
-  return moment(this.bday).format('YYYY-MM-DD');
-});
-
-// Virtual for athletes graduation year (for proper formating)
-AthleteSchema
-.virtual('gradyr_yyyy')
-.get(function () {
-  return moment(this.gradyr).format('YYYY');
+  return moment(this.bday).format('MM-DD-YYYY');
 });
 
 var Athlete = module.exports = mongoose.model('Athlete', AthleteSchema);

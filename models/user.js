@@ -29,15 +29,15 @@ var UserSchema = mongoose.Schema({
 
 var User = module.exports = mongoose.model('User', UserSchema);
 
-module.exports.createUser = function(newUser, callback){
-    // Use bcrrypt to hash the password
-    bcrypt.genSalt(10, function(err, salt) {
-	    bcrypt.hash(newUser.password, salt, function(err, hash) {
-	        newUser.password = hash;
-	        newUser.save(callback);
-	    });
-	});
-}
+// module.exports.createUser = function(newUser, callback){
+//     // Use bcrrypt to hash the password
+//     bcrypt.genSalt(10, function(err, salt) {
+// 	    bcrypt.hash(newUser.password, salt, function(err, hash) {
+// 	        newUser.password = hash;
+// 	        newUser.save(callback);
+// 	    });
+// 	});
+// }
 
 // Its good to keep these function within the model (could of placed within the user.js route)
 module.exports.getUserByUsername = function(username, callback){

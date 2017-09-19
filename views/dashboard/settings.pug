@@ -6,6 +6,7 @@ append body
     .row
         .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
             h1.page-header #{title}
+            
             p
                 | When using the Pre/Post feature of the SportScale, a user might encounter a situation
                 | where they have fallen below a desired percentage of weight before and after a physical activity. 
@@ -17,28 +18,42 @@ append body
                             .col-md-6
                                 .row
                                     form(method='POST' action='')
-                                        label(for='ioMessageInput').lb-md Activity: In/Out
+                                        label(for='ioMessage').lb-md Activity: In/Out
                                         .form-group.input-group
                                             span.input-group-addon Message:
-                                            input#ioMessageInput.form-control(type='text' name='ioMessage' value=(undefined===athlete ? '' : athlete.fname))
+                                            input#ioMessage.form-control(type='text' name='ioMessage' value=(undefined===setting ? '' : setting.ioMessage))
                                         .form-group.input-group
                                             span.input-group-addon At a weight loss of 
-                                            input#ioPercentInput.form-control(type='number')
+                                            input#ioPercent.form-control(type='text' name='ioPercent' value=(undefined===setting ? '' : setting.ioPercent))
                                             span.input-group-addon %
-                                        label(for='iiMessageInput').lb-md Activity: In/In
+                                        label(for='iiMessage').lb-md Activity: In/In
                                         .form-group.input-group
                                             span.input-group-addon Message:
-                                            input#iiMessageInput.form-control(type='text')
+                                            input#iiMessage.form-control(type='text' name='iiMessage' value=(undefined===setting ? '' : setting.iiMessage))
                                         .form-group.input-group
                                             span.input-group-addon At a weight loss of 
-                                            input#iiPercentInput.form-control(type='number')
+                                            input#iiPercent.form-control(type='text' name='iiPercent' value=(undefined===setting ? '' : setting.iiPercent))
                                             span.input-group-addon %
                                         .form-group
                                             button.btn.btn-primary(type='submit') Save
-
+                                            input#settingId.form-control(type='hidden',name='settingId', required='true', value=setting._id )
                             
                     .col-md-12
-                        +panel-default("Backend Settings")
+                        +panel-default("Athlete Settings")
+                            button.btn.btn-primary(data-toggle="modal",data-target="#deleteAllAthletesModal") Delete All Athletes
+                            +modal("Delete All Athletes ","deleteAllAthletesModal")
+                                if errors
+                                    for error in errors
+                                        div.alert.alert-danger
+                                            p #{error.msg}
+                                form.form-signin(method='POST' action='/dashboard/athletes/delete')
+                                    h2.form-signin-heading Delete All Athlete?
+                                    //- input#profileid.form-control(type='hidden',name='profileid', required='true', value=athlete._id )
+                                    button.btn.btn-lg.btn-primary.btn-block(type='submit') Delete
+
+
+                    .col-md-12
+                        +panel-default("Administrative Settings")
                             button.btn.btn-primary(data-toggle="modal",data-target="#newUserModal") Create New User
                             +modal("New User","newUserModal")
                                 if errors
@@ -63,3 +78,4 @@ append body
                                     input#inputPassword2.form-control(type='password', placeholder='Confirm Password', name="password2")
                                     
                                     button.btn.btn-lg.btn-primary.btn-block(type='submit') Submit
+                                

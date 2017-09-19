@@ -14,7 +14,7 @@ exports.athlete_list = function (req, res) {
         })
 };
 
-// Display detail page for a specific athlete
+// Display detail page for a specific athlete on GET
 exports.athlete_detail = function (req, res) {
 
     async.parallel({
@@ -44,7 +44,7 @@ exports.athlete_create_get = function (req, res) {
 
 // Handle athlete create on POST
 exports.athlete_create_post = function (req, res) {
-    
+    // Grab first and last name from body of client browser
     req.checkBody('firstName', 'First name must be specified.').notEmpty(); //We won't force Alphanumeric, because people might have spaces.
     req.checkBody('lastName', 'Last name must be specified.').notEmpty();
 
@@ -63,6 +63,7 @@ exports.athlete_create_post = function (req, res) {
 
     if (errors) {
         res.render('athlete_list', { title: 'Athlete List', athlete: athlete, errors: errors });
+
         return;
     }
     else {
@@ -70,7 +71,7 @@ exports.athlete_create_post = function (req, res) {
 
         athlete.save(function (err) {
             if (err) { return next(err); }
-            req.flash('success_msg', 'You are registered a new athlete');
+            req.flash('success_msg', 'You have registered a new athlete');
             //successful - redirect to new author record.
             res.redirect(athlete.url + '/update');
         });
@@ -122,8 +123,11 @@ exports.athlete_update_get = function (req, res) {
     Athlete.findById(req.params.id, function (err, athlete) {
         if (err) { return next(err); }
         //On success
-        res.render('dashboard/athlete_form', { title: 'Update Athlete', athlete: athlete, genders: Athlete.schema.path('gender').enumValues });
-
+        res.render('dashboard/athlete_form', {
+            title: 'Update Athlete',
+            athlete: athlete,
+            genders: Athlete.schema.path('gender').enumValues
+        });
     });
 };
 
@@ -144,11 +148,10 @@ exports.athlete_update_post = function (req, res) {
     req.sanitize('gender').trim();
     req.sanitize('passcode').trim();
     req.sanitize('bday').toDate();
-    req.sanitize('gradyr').toDate();
+    // Grad Yr is num?
 
     //Run the validators
     var valErrors = req.validationErrors();
-
     //Create a author object with escaped and trimmed data (and the old id!)
     var athlete = new Athlete(
         {
@@ -164,10 +167,9 @@ exports.athlete_update_post = function (req, res) {
             _id: req.params.id
         }
     );
-
     if (valErrors) {
         //If there are errors render the form again, passing the previously entered values and errors
-        res.render('athlete_form', { title: 'Update Athlete', athlete: athlete, errors: errors });
+        res.render('athlete_form', { title: 'Error Updating Athlete', athlete: athlete, valErrors: valErrors });
         return;
     }
     else {
@@ -178,6 +180,33 @@ exports.athlete_update_post = function (req, res) {
             res.redirect(theathlete.url);
         });
     }
+};
 
+// Display history page for a specific athlete on GET
+exports.athlete_history = function (req, res) {
+    var isValid = false;
+    var User = this;
+    var errorObject;
 
+    var athleteQuery = Athlete.findById(req.params.id, 'name gender gradyr bday_yyyy_mm_dd sport url _id');
+
+    var weightQuery = Weight.find({ 'athlete': req.params.id }, 'type date time_hh_mm_a weight bodyFat');
+
+    var promise1 = athleteQuery.exec();
+    var promise2= weightQuery.exec();
+
+    assert.ok(promise1 instanceof require('mpromise'));
+    assert.ok(promise2 instanceof require('mpromise'));
+
+    promise1.then(function (athleteQuery) {
+        promise2.then(function (weightQuery) {
+            //Successful, so render
+            console.log(weightQuery);
+            console.log(athleteQuery);
+            res.render('dashboard/athlete_history', {
+                athlete: athlete,
+                athlete_weights: weights
+            });
+          });
+    });
 };

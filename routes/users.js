@@ -1,62 +1,26 @@
 var express = require('express');
 var router = express.Router();
+
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 var User = require('../models/user'); //.. up one directory
 
-// /* GET users listing. */
-// router.get('/', function(req, res, next) {
-//   res.send('respond with a resource');
-// });
+// Require controller modules
+var user_controller = require('../controllers/userController');
 
-// Register
-router.get('/register', function (req, res) {
-  res.render('register');
-});
+//-------------------------------------- REGISTER ROUTES --------------------------------------///
+
+/* GET request for list of all Athletes (/dashboard/athletes). */
+router.get('/register', user_controller.user_register_get);
+/* POST request or user registration (/dashboard/athletes). */
+router.post('/register', user_controller.user_register_post, );
+/// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ///
 
 // Login
 router.get('/login', function (req, res) {
   res.render('login');
 });
-
-// Register User
-router.post('/register', function (req, res) {
-  var name = req.body.name;
-  var email = req.body.email;
-  var username = req.body.username;
-  var password = req.body.password;
-  var password2 = req.body.password2;
-
-  // Validation
-  req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
-
-  var errors = req.validationErrors();
-
-  if (errors) {
-    res.render('register', {
-      errors: errors
-    });
-  } else {
-    console.log('passed');
-    var newUser = new User({
-      name: name,
-      email: email,
-      username: username,
-      password: password
-    });
-
-    User.createUser(newUser, function (err, user) {
-      if (err) throw err;
-      console.log(user);
-    });
-
-    req.flash('success_msg', 'New User Registered');
-
-    res.redirect('/dashboard/settings');
-  }
-});
-
 passport.use(new LocalStrategy(
   function (username, password, done) {
     // Call our model functions we created

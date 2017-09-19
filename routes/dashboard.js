@@ -20,6 +20,10 @@ router.get('/overview', ensureAuthenticated, overview_controller.index);
 router.get('/athletes', ensureAuthenticated, athlete_controller.athlete_list);
 /* POST request for list of all Athletes (/dashboard/athletes). */
 /// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ///
+/* GET request for deleting all Athletes (/dashboard/athletes/delete). */
+/* POST request for deleting all Athletes (/dashboard/athletes/delete). */
+//router.post('/athletes/delete', ensureAuthenticated, athlete_controller.athlete_deleteAll_post);
+/// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ///
 /* GET request for creating Athlete. */
 /* POST request for creating Athlete. */
 router.post('/athlete/create', ensureAuthenticated, athlete_controller.athlete_create_post);
@@ -37,12 +41,25 @@ router.get('/athlete/:id/update', ensureAuthenticated, athlete_controller.athlet
 /* POST request to update Author  (/dashboard/athlete/{id}/update)*/
 router.post('/athlete/:id/update', ensureAuthenticated, athlete_controller.athlete_update_post);
 /// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ///
+/* GET request for one Athlete's history (/dashboard/athlete/{id}/history ). */
+router.get('/athlete/:id/history', ensureAuthenticated, athlete_controller.athlete_history);
+/* POST request for one Athlete's history (/dashboard/athlete/{id}/history ). */
+/// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ///
 
 
 ///------------------------------------- SETTINGS ROUTES --------------------------------------///
 
-/* GET request for settings main page (/dashboard/athlete/{id} ). */
+/* GET request for settings main page (redirects to /dashboard/setting/{id} ). */
 router.get('/settings', ensureAuthenticated, setting_controller.index);
+/// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ///
+/* GET request to update Settings. (/dashboard/settings/{id}/update)*/
+router.get('/settings/:id/update', ensureAuthenticated, setting_controller.setting_update_get);
+/* POST request to update Settings  (/dashboard/settings/{id}/update)*/
+router.post('/settings/:id/update', ensureAuthenticated, setting_controller.setting_update_post);
+/// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ///
+/* POST request to create a new user's Settings  (/dashboard/settings/create/{ID of new user)*/
+// router.post('/settings/create/:newId', ensureAuthenticated, setting_controller.setting_create_post);
+
 
 
 ///---------------------------------------- FUNCTIONS -----------------------------------------///

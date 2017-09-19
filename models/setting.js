@@ -10,22 +10,31 @@ var SettingSchema = mongoose.Schema({
     },
     ioMessage: {
         type: String,
-        trim: true
+        trim: true,
+        default: "Go see your trainer!"
     },
     ioPercent: {
         type: Number,
-        trim: true
+        trim: true,
+        default: 2.5
     },
     iiMessage: {
         type: String,
-        trim: true
+        trim: true,
+        default: "Go see your trainer!"
     },
     iiPercent: {
-        type: String,
-        trim: true
-    },
-    
+        type: Number,
+        trim: true,
+        default: 2.5
+    }
+});
 
+// Virtual for this book instance URL
+SettingSchema
+.virtual('url')
+.get(function () {
+    return '/dashboard/settings/' + this._id;
 });
 
 var Setting = module.exports = mongoose.model('Setting', SettingSchema);
