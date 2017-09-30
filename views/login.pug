@@ -1,19 +1,21 @@
-extends header
+extends frontend-layout
 append styles
 	// Custom styles for this template
 	link(href='/css/signin.css', rel='stylesheet')
-block body
-	.container
-		form.form-signin(method='POST' action='/users/login')
-			h2.form-signin-heading Please sign in
-			label.sr-only(for='username') Username
-			input#username.form-control(type='text', placeholder='Username', name="username", required='', autofocus='')
-			label.sr-only(for='inputPassword') Password
-			input#inputPassword.form-control(type='password', placeholder='Password', name="password", required='')
-			.checkbox
-				label
-					input(type='checkbox', value='remember-me')
-					|  Remember me
-			button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign in
+append body
+	.container(style='text-align: center;')
+		.starter-template
+			img.img-fluid(src='/images/SPORTSCALE_9i.png')
+			form.form-signin(method='POST' action='/users/login')
+				h2.form-signin-heading Please sign in
+				label.sr-only(for='username') Username
+				input#username.form-control(type='text', placeholder='Username', name="username", required='', autofocus='')
+				label.sr-only(for='inputPassword') Password
+				input#inputPassword.form-control(type='password', placeholder='Password', name="password", required='')
+				.checkbox
+					label
+						input(type='checkbox', value='remember-me')
+						|  Remember me
+				button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign in
 
 

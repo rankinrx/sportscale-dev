@@ -67,7 +67,7 @@ AthleteSchema
 AthleteSchema
 .virtual('bday_mm_dd_yyyy')
 .get(function () {
-  return moment.utc(this.bday).format('MM-DD-YYYY');
+  return moment.utc(this.bday).format('MM/DD/YYYY');
 });
 
 // Virtual for athletes birthday (for proper TIMEPICKER formating)
@@ -78,11 +78,12 @@ AthleteSchema
 });
 
 
-// Virtual for athletes age
+// Virtual for athletes age (no decimal needed)
 AthleteSchema
 .virtual('age')
 .get(function () {
-  return moment().diff(this.bday, 'years', true);
+	yrs = moment().diff(this.bday, 'years', true);
+  return yrs.toFixed(0);
 });
 
 var Athlete = module.exports = mongoose.model('Athlete', AthleteSchema);

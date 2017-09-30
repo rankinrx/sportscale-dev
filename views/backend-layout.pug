@@ -3,6 +3,8 @@ append styles
 	// Custom styles for this template
 	link(href='/css/dashboard.css', rel='stylesheet')
 block body
+	+navbar-fixed("SportScale","navbar","inverse")
+		+nav_item("/users/logout") Logout
 	.container-fluid
 		.row
 			.col-sm-3.col-md-2.sidebar

@@ -58,10 +58,23 @@ append body
                 .row
                     .col-md-12
                         button.btn.btn-primary.pull-right(data-toggle="modal",data-target="#deleteAthleteModal") Delete Athlete
-                        +modal("Delete Athlete","deleteAthleteModal")
-                            form.form-signin(method='POST' action=athlete.url+'/delete')
-                                h2.form-signin-heading Delete Athlete: #{athlete.name}
-                                input#athleteid.form-control(type='hidden',name='athleteid', required='true', value=athlete._id )
-                                button.btn.btn-lg.btn-primary.btn-block(type='submit') Delete
+
+                        // Delete User Modal
+                        #deleteAthleteModal.modal.fade(tabindex='1' role='dialog' aria-labelledby='deleteAthleteModalLabel', aria-hidden='true')
+                            .modal-dialog.modal-sm
+                                .modal-content
+                                    .modal-body
+                                        if errors
+                                            for error in errors
+                                                div.alert.alert-danger
+                                                    p #{error.msg}
+                                        h4#deleteAthleteModalLabel.modal-title Delete Athlete: #{athlete.name} ?
+                                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                                span(aria-hidden='true') ×
+                                        form(method='POST' action=athlete.url+'/delete')
+                                            .form-group
+                                            input#athleteid.form-control(type='hidden',name='athleteid', required='true', value=athlete._id )
+                                            button.btn.btn-lg.btn-primary.btn-block(type='submit') Yes
+                                    .modal-footer
 
                         a.btn.btn-primary.pull-right(href=athlete.url+'/update') Update athlete

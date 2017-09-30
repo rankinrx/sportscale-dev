@@ -6,6 +6,8 @@ append body
     .row
         .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
             h1.page-header #{title}
+
+            // Athlete List Datatable <--- THIS IS TO BE UPDATED
             +panel-default
                 .row
                     .col-md-12
@@ -26,23 +28,6 @@ append body
                                 button.btn.dropdown-toggle(data-toggle='dropdown', href='#' )
                                     | Filter
                                     span.caret
-
-                            +modal("Create a new athlete","newAthleteModal")
-                                if errors
-                                    for error in errors
-                                        div.alert.alert-danger
-                                            p #{error.msg}
-                                form(method='POST' action='/dashboard/athlete/create')
-                                    label.sr-only(for='inputFirstName') First Name
-                                    input#inputFirstName.form-control(type='text', placeholder='First Name', name="firstName", required='')
-                                    
-                                    label.sr-only(for='inputLastName') Last Name
-                                    input#inputLastName.form-control(type='text', placeholder='Last Name', name="lastName", required='')
-                                    
-                                    label.sr-only(for='inputBirthday') Birthday
-                                    input#inputLastName.form-control(type='date', placeholder='mm/dd/yyyy', name="bday", required='')
-
-                                    button.btn.btn-lg.btn-primary.btn-block(type='submit') Submit
                 .row.top-buffer
                     .col-md-12
                          table.table.table-hover
@@ -58,10 +43,45 @@ append body
                                             a(href=athlete.url) #{athlete.name}
                                         td=athlete.age
                                         td=athlete.sport
-                    //-     ul.list-group
-                    //-         each athlete in athlete_list
-                    //-             li.list-group-item
-                    //-                 a(href=athlete.url) #{athlete.name}
-                    //-         else
-                    //-             li.list-group-item There are no athletes.
-                       
+                                else
+                                    tr
+                                        td There are no athletes
+                .row.top-buffer
+                    .col-md-12
+                        .btn-toolbar
+                                .btn-group
+                                button.btn.btn-primary(data-toggle='modal', data-target='#createReportModal') Create Report
+                                .btn-group
+                                button.btn.btn-primary(data-toggle='modal', data-target='#importModal' ) Import Athletes
+                
+                /////// MODALS
+
+                // New User Modal
+                #newAthleteModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='newAthleteModalLabel', aria-hidden='true')
+                    .modal-dialog.modal-sm
+                        .modal-content
+                            .modal-header
+                                h4#newAthleteModalLabel.modal-title Create new athlete
+                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                        span(aria-hidden='true') ×
+                            .modal-body
+                                if errors
+                                    for error in errors
+                                        div.alert.alert-danger
+                                            p #{error.msg}
+
+                                form(method='POST' action='/dashboard/athlete/create')
+                                    .form-group
+                                    label.sr-only(for='inputFirstName') First Name
+                                    input#inputFirstName.form-control(type='text', placeholder='First Name', name="firstName", required='')
+                                    .form-group
+                                    label.sr-only(for='inputLastName') Last Name
+                                    input#inputLastName.form-control(type='text', placeholder='Last Name', name="lastName", required='')
+                                    .form-group
+                                    label.sr-only(for='inputBirthday') Birthday
+                                    input#inputLastName.form-control(type='date', placeholder='mm/dd/yyyy', name="bday", required='')
+                                    .form-group
+                                    button.btn.btn-lg.btn-primary.btn-block(type='submit') Submit
+                            .modal-footer
+                
+                
