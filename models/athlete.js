@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var moment = require('moment'); //for date handling
 
 // Athlete Profile Schema
+// - Date: RFC 822 timestamps
 var AthleteSchema = mongoose.Schema({
 	passcode: {
 		type: Number,
@@ -20,7 +21,7 @@ var AthleteSchema = mongoose.Schema({
 	},
 	bday: {
 		type: Date,
-		default: null
+		required: true
 	},
 	gender: {
 		type: String,
@@ -62,11 +63,26 @@ AthleteSchema
   return '/dashboard/athlete/' + this._id;
 });
 
-// Virtual for athletes birthday (for proper formating)
+// Virtual for athletes birthday (for proper TEXT formating)
+AthleteSchema
+.virtual('bday_mm_dd_yyyy')
+.get(function () {
+  return moment.utc(this.bday).format('MM-DD-YYYY');
+});
+
+// Virtual for athletes birthday (for proper TIMEPICKER formating)
 AthleteSchema
 .virtual('bday_yyyy_mm_dd')
 .get(function () {
-  return moment(this.bday).format('MM-DD-YYYY');
+  return moment.utc(this.bday).format('YYYY-MM-DD');
+});
+
+
+// Virtual for athletes age
+AthleteSchema
+.virtual('age')
+.get(function () {
+  return moment().diff(this.bday, 'years', true);
 });
 
 var Athlete = module.exports = mongoose.model('Athlete', AthleteSchema);

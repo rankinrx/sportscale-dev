@@ -52,13 +52,15 @@ exports.athlete_create_post = function (req, res) {
     req.sanitize('lastName').escape();
     req.sanitize('firstName').trim();
     req.sanitize('lastName').trim();
+    req.sanitize('bday').toDate();
 
     var errors = req.validationErrors();
 
     var athlete = new Athlete(
         {
             fname: req.body.firstName,
-            lname: req.body.lastName
+            lname: req.body.lastName,
+            bday: req.body.bday
         });
 
     if (errors) {
@@ -188,7 +190,7 @@ exports.athlete_history = function (req, res) {
     var User = this;
     var errorObject;
 
-    var athleteQuery = Athlete.findById(req.params.id, 'name gender gradyr bday_yyyy_mm_dd sport url _id');
+    var athleteQuery = Athlete.findById(req.params.id, 'name gender gradyr bday_mm_dd_yyyy sport url _id');
 
     var weightQuery = Weight.find({ 'athlete': req.params.id }, 'type date time_hh_mm_a weight bodyFat');
 

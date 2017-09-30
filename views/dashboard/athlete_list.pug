@@ -39,12 +39,29 @@ append body
                                     label.sr-only(for='inputLastName') Last Name
                                     input#inputLastName.form-control(type='text', placeholder='Last Name', name="lastName", required='')
                                     
+                                    label.sr-only(for='inputBirthday') Birthday
+                                    input#inputLastName.form-control(type='date', placeholder='mm/dd/yyyy', name="bday", required='')
+
                                     button.btn.btn-lg.btn-primary.btn-block(type='submit') Submit
                 .row.top-buffer
                     .col-md-12
-                        ul.list-group
-                            each athlete in athlete_list
-                                li.list-group-item
-                                    a(href=athlete.url) #{athlete.name}
-                            else
-                                li.list-group-item There are no athletes.
+                         table.table.table-hover
+                            thead
+                                tr
+                                    th Name
+                                    th Age
+                                    th Sport
+                            tbody
+                                each athlete in athlete_list
+                                    tr
+                                        td
+                                            a(href=athlete.url) #{athlete.name}
+                                        td=athlete.age
+                                        td=athlete.sport
+                    //-     ul.list-group
+                    //-         each athlete in athlete_list
+                    //-             li.list-group-item
+                    //-                 a(href=athlete.url) #{athlete.name}
+                    //-         else
+                    //-             li.list-group-item There are no athletes.
+                       
