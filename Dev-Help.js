@@ -1,11 +1,12 @@
 
+/////////////////////////////// Nodejs ///////////////////////////////
 
 // Go up one directory for require:
 var User = require('../models/user');
 
 
 
-// DATABASE samples
+/////////////////////////////// DATABASE ///////////////////////////////
 
 // Settings
 {
@@ -16,3 +17,10 @@ var User = require('../models/user');
     "iiPercent" : 1.1
     
 }
+
+/////////////////////////////// CSS ///////////////////////////////
+
+//As for other users suggestion there are also native bootstrap classes available like:
+
+class="text-center"
+class="pagination-centered"

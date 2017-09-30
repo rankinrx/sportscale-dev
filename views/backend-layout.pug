@@ -3,17 +3,15 @@ append styles
 	// Custom styles for this template
 	link(href='/css/dashboard.css', rel='stylesheet')
 block body
-	+navbar-fixed("SportScale","navbar","inverse")
-		+nav_item("/users/logout") Logout
 	.container-fluid
+		//- Add navbar and sidebar manipulation
 		.row
 			.col-sm-3.col-md-2.sidebar
 				ul.nav.nav-sidebar
-					li.active
-						a(href='/dashboard/overview')
-							| Overview 
-							span.sr-only (current)
-					li
-						a(href='/dashboard/athletes') Athletes
-					li
-						a(href='/dashboard/settings') Settings
+					each val, key in dashMenu
+						if selected === key
+							li.active
+								a.selected(href=val, title=key)= key
+						else
+							li
+								a(href=val, title=key)= key

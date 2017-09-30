@@ -45,6 +45,10 @@ include components/bootswatch
 
 doctype html
 html(lang="en")
+	block link
+		-var selected = 'Overview'; //default
+	-var dashMenu = { 'Overview': '/dashboard/overview', 'Athletes': '/dashboard/athletes', 'Settings': '/dashboard/settings'};
+
 	head
 		block head
 			meta(charset="UTF-8")
@@ -58,6 +62,18 @@ html(lang="en")
 				link(rel="stylesheet",href="/css/bootstrap.min.css")
 
 	body(data-spy="scroll",data-target=".scrollspy")
+		+navbar-fixed("SportScale","navbar","inverse")
+			//- If user is not logged in
+			if !user
+				+nav_item("#","active") Home
+				+nav_item("#") About
+				+nav_item("#") Contact
+				+nav_item("/users/login") Login
+				//- +nav_item("/users/register") Register
+			//-  If user is logged in
+			if user
+				+nav_item("/users/logout") Logout
+				
 		//- Add alert capability to every page
 		div.wrapper  
 			if success_msg != ''
@@ -66,6 +82,7 @@ html(lang="en")
 				.alert.alert-danger #{error_msg} 
 			if error != ''
 				.alert.alert-danger #{error} 
+		
 		block body
 			
 		block scripts

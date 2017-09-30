@@ -46,7 +46,11 @@ var AthleteSchema = mongoose.Schema({
 	},
 	school: {
 		type: String
-	}
+	},
+	bodyfat: {
+		type: Number,
+		default: null
+	},
 });
 
 // Virtual for athlete's full name

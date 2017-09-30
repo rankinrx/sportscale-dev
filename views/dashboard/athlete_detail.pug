@@ -18,7 +18,7 @@ append body
                     .col-md-3
                         p Sport: #{athlete.sport}
                 hr
-                .row 
+                .row
                     .col-md-6
                         +panel-default('Activity log')
                             ul.list-group
@@ -29,19 +29,25 @@ append body
                         +panel-default(athlete.fname+ `'s Settings`)
                             .row
                                 form(method='POST' action='')
-                                    .col-md-3
-                                        label(for='showweight') Show Weight:
+                                    .col-md-6.text-center
+                                        label(for='showweight') Show Weight
                                         br
                                         label.switch
-                                            input(type="checkbox", name="showweight", checked=(true===false ? "checked" : athlete.showweight))
+                                            input#showweight(type="checkbox", name="showweight", checked=(true===false ? "checked" : athlete.showweight))
                                             span.slider.round
                                         
-                                    .col-md-3
-                                        label(for='highrisk') High Risk:
+                                    .col-md-6.text-center
+                                        label(for='highrisk') High Risk
                                         br
                                         label.switch
-                                            input(type="checkbox", name="highrisk", checked=(true===false ? "checked" : athlete.highrisk))
+                                            input#highrisk(type="checkbox", name="highrisk", checked=(true===false ? "checked" : athlete.highrisk))
                                             span.slider.round
+                            //Need to fix column vertical length (not use breaks)
+                            br
+                            br
+                            .row     
+                                a.btn.btn-primary.pull-right.btn-space(href=athlete.url+'/history' role='button') View History
+                                a.btn.btn-primary.pull-right.btn-space(href=athlete.url+'/report' role='button') Create Report
                 .row
                     .col-md-12
                         +panel-default('Weight History')
@@ -51,7 +57,6 @@ append body
                                     a(href=weight.url) #{weight.weight}
                                 dd #{weight.type}
                                 dd #{weight.time_yyyy_mm_dd}
-
                             else
                                 p This athlete has no weight history.
                 hr

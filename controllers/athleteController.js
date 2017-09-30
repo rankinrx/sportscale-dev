@@ -147,10 +147,13 @@ exports.athlete_update_post = function (req, res) {
     req.sanitize('fname').trim();
     req.sanitize('lname').trim();
     req.sanitize('sport').trim();
-    req.sanitize('gender').trim();
+    req.sanitize('bodyfat').trim();
     req.sanitize('passcode').trim();
     req.sanitize('bday').toDate();
-    // Grad Yr is num?
+    
+    //Capitilize first letter of sport entry
+    sportCAP =  req.body.sport.charAt(0).toUpperCase() + req.body.sport.slice(1);
+    
 
     //Run the validators
     var valErrors = req.validationErrors();
@@ -161,11 +164,12 @@ exports.athlete_update_post = function (req, res) {
             lname: req.body.lname,
             bday: req.body.bday,
             gender: req.body.gender,
-            sport: req.body.sport,
+            sport: sportCAP,
             passcode: req.body.passcode,
             gradyr: req.body.gradyr,
             highrisk: req.body.highrisk || false,
             showweight: req.body.showweight || false,
+            bodyfat: req.body.bodyfat,
             _id: req.params.id
         }
     );

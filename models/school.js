@@ -5,8 +5,8 @@ var SchoolSchema = mongoose.Schema({
 		type: String,
 		required: true,
 		trim: true
-    },
-    admin: {
+	},
+	admin: {
 		type: Schema.ObjectId,
 		ref: 'user',
 		required: true
@@ -14,8 +14,8 @@ var SchoolSchema = mongoose.Schema({
 	address: {
 		type: String,
 		trim: true
-    },
-    
+	},
+
 
 });
 

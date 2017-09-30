@@ -1,4 +1,6 @@
 extends ../backend-layout
+block link
+  -var selected = 'Athletes';
 append styles
     // Custom styles for this template
     link(href='/css/dashboard.css', rel='stylesheet')
@@ -61,7 +63,7 @@ append body
                     .modal-dialog.modal-sm
                         .modal-content
                             .modal-header
-                                h4#newAthleteModalLabel.modal-title Create new athlete
+                                h3#newAthleteModalLabel.modal-title Create new athlete
                                     button.close(type='button', data-dismiss='modal', aria-label='Close')
                                         span(aria-hidden='true') ×
                             .modal-body
@@ -71,7 +73,6 @@ append body
                                             p #{error.msg}
 
                                 form(method='POST' action='/dashboard/athlete/create')
-                                    .form-group
                                     label.sr-only(for='inputFirstName') First Name
                                     input#inputFirstName.form-control(type='text', placeholder='First Name', name="firstName", required='')
                                     .form-group

@@ -37,6 +37,10 @@ append body
                     input#sport.form-control(type='text', placeholder='Active Sport' name='sport' value=(undefined===athlete ? '' : athlete.sport))
 
                     div.form-group
+                    label(for='bodyfat') Body Fat:
+                    input#bodyfat.form-control(type='text', placeholder='%' name='bodyfat' value=(undefined===athlete ? '' : athlete.bodyfat))
+
+                    div.form-group
                     label Show Weight:
                     input#showweight.checkbox-input(type='checkbox', name='showweight', checked=(true===false ? "checked" : athlete.showweight))
 

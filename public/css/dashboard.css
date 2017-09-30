@@ -186,3 +186,7 @@ input:checked + .slider:before {
 .lb-lg {
   font-size: 20px;
 }
+
+.btn-space {
+  margin-right: 5px;
+}
