@@ -1,4 +1,6 @@
 extends ../backend-layout
+block link
+  -var selected = 'Athletes';
 append styles
     // Custom styles for this template
     link(href='/css/dashboard.css', rel='stylesheet')
@@ -26,17 +28,43 @@ append body
                                     span.caret
                 .row.top-buffer
                     .col-md-12
-                        table
-                            thead
-                                tr: th Posts
-                            tbody
-                                each weight, i in athlete_weights
+                        table.table.table-hover
+                                thead
                                     tr
-                                        td 
-                                            a(href=' ') #{weight.weight}
-                        //- ul.list-group
-                        //-     each weight in athlete_weights
-                        //-         li.list-group-item
-                        //-             a(href='athlete.url') #{weight.date}
-                        //-     else
-                        //-         li.list-group-item There are no athletes.
+                                        th Date
+                                        th Time
+                                        th Weight
+                                        th Type
+                                tbody
+                                    each weight in athlete_weights
+                                        tr
+                                            td=weight.date_mm_dd_yyyy
+                                            td=weight.time_hh_mm_a
+                                            td=weight.weight
+                                            td=weight.type
+                                    else
+                                        tr
+                                            td This athlete has no weight history.
+                .row.top-buffer
+                    .col-md-12
+                        .btn-toolbar
+                                .btn-group
+                                button.btn.btn-primary(data-toggle='modal', data-target='#deleteAllWeightsModal') Delete All History
+
+                                // Delete Weights Modal
+                                #deleteAllWeightsModal.modal.fade(tabindex='1' role='dialog' aria-labelledby='deleteAllWeightsModalLabel', aria-hidden='true')
+                                    .modal-dialog.modal-sm
+                                        .modal-content
+                                            .modal-body
+                                                if errors
+                                                    for error in errors
+                                                        div.alert.alert-danger
+                                                            p #{error.msg}
+                                                h4#deleteAthleteModalLabel.modal-title Delete All of #{athlete.name}'s Weights?
+                                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                                        span(aria-hidden='true') ×
+                                                form(method='POST' action='/dashboard/weights/' + athlete._id +'/delete')
+                                                    .form-group
+                                                    input#athleteid.form-control(type='hidden',name='athleteid', required='true', value=athlete._id )
+                                                    button.btn.btn-lg.btn-primary.btn-block(type='submit') Yes
+                                            .modal-footer

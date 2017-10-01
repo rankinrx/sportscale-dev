@@ -1,4 +1,6 @@
 extends ../backend-layout
+block link
+  -var selected = 'Athletes';
 append styles
     // Custom styles for this template
     link(href='/css/dashboard.css', rel='stylesheet')
@@ -47,7 +49,7 @@ append body
                             br
                             .row     
                                 a.btn.btn-primary.pull-right.btn-space(href=athlete.url+'/history' role='button') View History
-                                a.btn.btn-primary.pull-right.btn-space(href=athlete.url+'/report' role='button') Create Report
+                                a.btn.btn-primary.pull-right.btn-space(href='/dashboard/report/'+ athlete._id + '/create' role='button') Create Report
                 .row
                     .col-md-12
                         +panel-default('Weight History')
@@ -87,7 +89,6 @@ append body
                                                 span(aria-hidden='true') ×
                                         form(method='POST' action=athlete.url+'/delete')
                                             .form-group
-                                            input#athleteid.form-control(type='hidden',name='athleteid', required='true', value=athlete._id )
                                             button.btn.btn-lg.btn-primary.btn-block(type='submit') Yes
                                     .modal-footer
 

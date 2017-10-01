@@ -87,34 +87,18 @@ exports.athlete_create_post = function (req, res) {
 
 // Handle athlete delete on POST
 exports.athlete_delete_post = function (req, res) {
-    req.checkBody('athleteid', 'Athlete id must exist').notEmpty();
-
-    async.parallel({
-        athlete: function (callback) {
-            Athlete.findById(req.body.athleteid).exec(callback)
-        },
-        athlete_weights: function (callback) {
-            Weight.find({ 'athlete': req.body.athleteid }).exec(callback)
-        },
-    }, function (err, results) {
-        if (err) { return next(err); }
+    //Success
+    Athlete.findByIdAndRemove(req.params.id, function deleteAthlete(err) {
+        if (err) return handleError(err);
         //Success
-        // Impletent below in order to delete all associated weight records when an athlete is deleted
-        // if (results.athlete_weights.length > 0) {
-        //     //Author has books. Render in same way as for GET route.
-        //     res.render('author_delete', { title: 'Delete Author', author: results.author, author_books: results.athlete_weights } );
-        //     return;
-        // }
-        //else {
-        //Author has no books. Delete object and redirect to the list of authors.
-        Athlete.findByIdAndRemove(req.body.athleteid, function deleteAthlete(err) {
-            if (err) { return next(err); }
-            //Success - got to author list
-            res.redirect('/dashboard/athletes')
-        })
-
-        //}
-    });
+        Weight.find({ 'athlete': req.params.id })
+            .remove()
+            .exec(function (err, results) {
+                if (err) return handleError(err);
+                //Successful, so render
+                res.redirect('/dashboard/athletes');
+            });
+    })
 };
 
 // Display athlete update form on GET
@@ -190,29 +174,24 @@ exports.athlete_update_post = function (req, res) {
 
 // Display history page for a specific athlete on GET
 exports.athlete_history = function (req, res) {
-    var isValid = false;
-    var User = this;
-    var errorObject;
 
-    var athleteQuery = Athlete.findById(req.params.id, 'name gender gradyr bday_mm_dd_yyyy sport url _id');
-
-    var weightQuery = Weight.find({ 'athlete': req.params.id }, 'type date time_hh_mm_a weight bodyFat');
-
-    var promise1 = athleteQuery.exec();
-    var promise2 = weightQuery.exec();
-
-    assert.ok(promise1 instanceof require('mpromise'));
-    assert.ok(promise2 instanceof require('mpromise'));
-
-    promise1.then(function (athleteQuery) {
-        promise2.then(function (weightQuery) {
-            //Successful, so render
-            console.log(weightQuery);
-            console.log(athleteQuery);
-            res.render('dashboard/athlete_history', {
-                athlete: athlete,
-                athlete_weights: weights
-            });
+    async.parallel({
+        athlete: function (callback) {
+            Athlete.findById(req.params.id)
+                .exec(callback)
+        },
+        weights: function (callback) {
+            Weight.find({ 'athlete': req.params.id }, 'type date time_hh_mm_a weight bodyFat')
+                .exec(callback)
+        },
+    }, function (err, results) {
+        if (err) return handleError(err);
+        //Successful
+        res.render('dashboard/athlete_history', {
+            athlete: results.athlete,
+            athlete_weights: results.weights
         });
     });
 };
+
+
