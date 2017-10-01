@@ -83,6 +83,15 @@ append body
                                     .form-group
                                     label.sr-only(for='inputBirthday') Birthday
                                     input#inputLastName.form-control(type='date', placeholder='mm/dd/yyyy', name="bday", required='')
+
+                                    if orgs
+                                        label.sr-only(for='inputOrg') Admin
+                                        select#inputOrg.form-control(type='select', placeholder='Select Org' name='org', required='' )
+                                            if orgs
+                                                option(value='', selected='selected') Select One
+                                                each org in orgs
+                                                    option(value=org._id) #{org.name}
+
                                     .form-group
                                     button.btn.btn-lg.btn-primary.btn-block(type='submit') Submit
                             .modal-footer

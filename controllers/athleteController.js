@@ -6,13 +6,47 @@ var Org = require('../models/org')
 
 // Display list of all Athletes
 exports.athlete_list = function (req, res) {
-    Athlete.find()
-        .sort([['lname', 'ascending']])
-        .exec(function (err, list_athletes) {
-            if (err) { return next(err); }
-            //Successful, so render
-            res.render('dashboard/athlete_list', { title: 'Athlete List', athlete_list: list_athletes });
-        })
+    var currentUser = res.locals.user._id;
+
+    // Find school who's admin is the current user
+    Org.findOne({ 'admin': currentUser }, '_id name', function (err, userOrg) {
+        if (err) return handleError(err);
+
+        // If super the use is Admin (Rob) them show all athletes
+        if (userOrg.name === "superorg") {
+            Athlete.find()
+                .sort([['lname', 'ascending']])
+                .exec(function (err, list_athletes) {
+                    if (err) { return next(err); }
+                    //Successful, so render
+
+                    // Im also an admin, find all orgs
+                    Org.find()
+                        .exec(function (err, list_orgs) {
+                            if (err) { return next(err); }
+
+                            res.render('dashboard/athlete_list',
+                                {
+                                    title: 'Athlete List',
+                                    athlete_list: list_athletes,
+                                    orgs: list_orgs
+
+                                });
+                        });
+                })
+        }
+        // If not super admin show only athlets who's org property is equal to the user's
+        else {
+            Athlete.find({ 'org': userOrg._id })
+                .sort([['lname', 'ascending']])
+                .exec(function (err, list_athletes) {
+                    if (err) { return next(err); }
+                    //Successful, so render
+                    res.render('dashboard/athlete_list', { title: 'Athlete List', athlete_list: list_athletes });
+                });
+
+        }
+    });
 };
 
 // Display detail page for a specific athlete on GET
@@ -43,11 +77,6 @@ exports.athlete_detail = function (req, res) {
     });
 };
 
-// Display athlete create form on GET
-exports.athlete_create_get = function (req, res) {
-    res.send('NOT IMPLEMENTED: athlete create GET');
-};
-
 // Handle athlete create on POST
 exports.athlete_create_post = function (req, res) {
     // Grab first and last name from body of client browser
@@ -63,26 +92,44 @@ exports.athlete_create_post = function (req, res) {
     // 1) Get current user id
     var currentUser = res.locals.user._id;
 
-    // 2) Find school related to current admin
-    Org.findOne({ 'admin': currentUser }, '_id', function (err, adminOrg) {
-        if (err) return handleError(err);
-        // Create athlete model with current user's org._id
+    // If user is superadmin than grab org out of textbox on page
+    if (req.body.org) {
         var athlete = new Athlete(
             {
                 fname: req.body.firstName,
                 lname: req.body.lastName,
                 bday: req.body.bday,
-                org: adminOrg
+                org: req.body.org
             });
-
         athlete.save(function (err) {
             if (err) return handleError(err);
-
             //success
             req.flash('success_msg', 'You have registered a new athlete');
             res.redirect(athlete.url + '/update');
         });
-    });
+    }
+    else {
+        // If not superadmin, then find school related to current user
+        Org.findOne({ 'admin': currentUser }, '_id', function (err, adminOrg) {
+            if (err) return handleError(err);
+            // Create athlete model with current user's org._id
+            var athlete = new Athlete(
+                {
+                    fname: req.body.firstName,
+                    lname: req.body.lastName,
+                    bday: req.body.bday,
+                    org: adminOrg
+                });
+
+            athlete.save(function (err) {
+                if (err) return handleError(err);
+
+                //success
+                req.flash('success_msg', 'You have registered a new athlete');
+                res.redirect(athlete.url + '/update');
+            });
+        });
+    }
 };
 
 // Handle athlete delete on POST
