@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var moment = require('moment'); //for date handling
 
+var Schema = mongoose.Schema;
+
 // Athlete Profile Schema
 // - Date: RFC 822 timestamps
 var AthleteSchema = mongoose.Schema({
@@ -44,8 +46,10 @@ var AthleteSchema = mongoose.Schema({
 		type: Boolean,
 		default: false
 	},
-	school: {
-		type: String
+	org: {
+		type: Schema.ObjectId,
+		ref: 'org',
+		required: true
 	},
 	bodyfat: {
 		type: Number,

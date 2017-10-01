@@ -9,7 +9,7 @@ append body
                 h1 Athlete: #{athlete.name}
                 .row
                     .col-md-3
-                        p School: ADD
+                        p School: #{org}
                         p Gender: #{athlete.gender}
                     .col-md-3
                         p Graduation Year: #{athlete.gradyr}
@@ -51,14 +51,23 @@ append body
                 .row
                     .col-md-12
                         +panel-default('Weight History')
-                            dl
-                            each weight in athlete_weights
-                                dt 
-                                    a(href=weight.url) #{weight.weight}
-                                dd #{weight.type}
-                                dd #{weight.time_yyyy_mm_dd}
-                            else
-                                p This athlete has no weight history.
+                            table.table.table-hover
+                                thead
+                                    tr
+                                        th Date
+                                        th Time
+                                        th Weight
+                                        th Type
+                                tbody
+                                    each weight in athlete_weights
+                                        tr
+                                            td=weight.date_mm_dd_yyyy
+                                            td=weight.time_hh_mm_a
+                                            td=weight.weight
+                                            td=weight.type
+                                    else
+                                        tr
+                                            td This athlete has no weight history.
                 hr
                 .row
                     .col-md-12

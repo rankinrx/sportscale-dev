@@ -1,7 +1,8 @@
 var async = require('async');
 
+var Weight = require('../models/weight');
 var Athlete = require('../models/athlete');
-var Weight = require('../models/weight')
+var Org = require('../models/org')
 
 // Display list of all Athletes
 exports.athlete_list = function (req, res) {
@@ -17,23 +18,28 @@ exports.athlete_list = function (req, res) {
 // Display detail page for a specific athlete on GET
 exports.athlete_detail = function (req, res) {
 
+    // 1.) Simultaniously look for athlete and weight information
     async.parallel({
         athlete: function (callback) {
             Athlete.findById(req.params.id)
                 .exec(callback)
         },
-        // Finds weights associated with the id of a requested athlete
         athletes_weights: function (callback) {
             Weight.find({ 'athlete': req.params.id }, 'weight type')
                 .exec(callback)
         },
     }, function (err, results) {
-        if (err) { return next(err); }
-        //Successful, so render
-        res.render('dashboard/athlete_detail', {
-            athlete: results.athlete,
-            athlete_weights: results.athletes_weights
-        });
+        if (err) return handleError(err);
+        //Successful - 3.) Find the name of the orginization the athlete is associated with
+        Org.findById(results.athlete.org, 'name', function (err, org) {
+            if (err) return handleError(err);
+            //Success
+            res.render('dashboard/athlete_detail', {
+                athlete: results.athlete,
+                athlete_weights: results.athletes_weights,
+                org: org.name
+            });
+        })
     });
 };
 
@@ -54,36 +60,30 @@ exports.athlete_create_post = function (req, res) {
     req.sanitize('lastName').trim();
     req.sanitize('bday').toDate();
 
-    var errors = req.validationErrors();
+    // 1) Get current user id
+    var currentUser = res.locals.user._id;
 
-    var athlete = new Athlete(
-        {
-            fname: req.body.firstName,
-            lname: req.body.lastName,
-            bday: req.body.bday
-        });
-
-    if (errors) {
-        res.render('athlete_list', { title: 'Athlete List', athlete: athlete, errors: errors });
-
-        return;
-    }
-    else {
-        // Data from form is valid
+    // 2) Find school related to current admin
+    Org.findOne({ 'admin': currentUser }, '_id', function (err, adminOrg) {
+        if (err) return handleError(err);
+        // Create athlete model with current user's org._id
+        var athlete = new Athlete(
+            {
+                fname: req.body.firstName,
+                lname: req.body.lastName,
+                bday: req.body.bday,
+                org: adminOrg
+            });
 
         athlete.save(function (err) {
-            if (err) { return next(err); }
+            if (err) return handleError(err);
+
+            //success
             req.flash('success_msg', 'You have registered a new athlete');
-            //successful - redirect to new author record.
             res.redirect(athlete.url + '/update');
         });
-    }
+    });
 };
-
-// Display athlete delete form on GET
-// exports.athlete_delete_get = function (req, res) {
-
-// };
 
 // Handle athlete delete on POST
 exports.athlete_delete_post = function (req, res) {
@@ -150,10 +150,10 @@ exports.athlete_update_post = function (req, res) {
     req.sanitize('bodyfat').trim();
     req.sanitize('passcode').trim();
     req.sanitize('bday').toDate();
-    
+
     //Capitilize first letter of sport entry
-    sportCAP =  req.body.sport.charAt(0).toUpperCase() + req.body.sport.slice(1);
-    
+    sportCAP = req.body.sport.charAt(0).toUpperCase() + req.body.sport.slice(1);
+
 
     //Run the validators
     var valErrors = req.validationErrors();
@@ -199,7 +199,7 @@ exports.athlete_history = function (req, res) {
     var weightQuery = Weight.find({ 'athlete': req.params.id }, 'type date time_hh_mm_a weight bodyFat');
 
     var promise1 = athleteQuery.exec();
-    var promise2= weightQuery.exec();
+    var promise2 = weightQuery.exec();
 
     assert.ok(promise1 instanceof require('mpromise'));
     assert.ok(promise2 instanceof require('mpromise'));
@@ -213,6 +213,6 @@ exports.athlete_history = function (req, res) {
                 athlete: athlete,
                 athlete_weights: weights
             });
-          });
+        });
     });
 };

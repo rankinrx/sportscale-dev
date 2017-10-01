@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 
+var Schema = mongoose.Schema;
+
 // User Schema
 // - trim: remove whitespace from front and back of text
 var UserSchema = mongoose.Schema({

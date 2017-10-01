@@ -18,6 +18,9 @@ var User = require('../models/user');
     
 }
 
+// Current user's id 
+var currentUser = res.locals.user._id;
+
 /////////////////////////////// CSS ///////////////////////////////
 
 //As for other users suggestion there are also native bootstrap classes available like:

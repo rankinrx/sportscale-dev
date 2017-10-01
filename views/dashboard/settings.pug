@@ -38,7 +38,7 @@ append body
                                             span.input-group-addon %
                                         .form-group
                                             button.btn.btn-primary(type='submit') Save
-                                            input#settingId.form-control(type='hidden',name='settingId', required='true', value=setting._id )
+                                            input#settingId.form-control(type='hidden',name='settingId', required='true', value=(undefined===setting ? '' : setting._id))
                             
                     .col-md-12
                         +panel-default("Athlete Settings")
@@ -78,6 +78,25 @@ append body
                                     
                                     label.sr-only(for='inputPassword2') Confirm Password
                                     input#inputPassword2.form-control(type='password', placeholder='Confirm Password', name="password2")
+
+                            button.btn.btn-primary(data-toggle="modal",data-target="#newOrgModal") Create New Org
+                            +modal("Add New Organization","newOrgModal")
+                                if errors
+                                    for error in errors
+                                        div.alert.alert-danger
+                                            p #{error.msg}
+                                form.form-signin(method='POST' action='/dashboard/org/create')
+                                    label.sr-only(for='inputOrgName') Name
+                                    input#inputOrgName.form-control(type='text', placeholder='Name', name="orgName", required='')
+                                    
+                                    label.sr-only(for='inputOrgAdmin') Admin
+                                    select#inputOrgAdmin.form-control(type='select', placeholder='Select Admin' name='OrgAdmin', required='' )
+                                        if users
+                                            option(value='', selected='selected') Select One
+                                            each user in users
+                                                option(value=user._id) #{user.name}
+                                    
+                                    label.sr-only(for='inputOrgAddress') Address
+                                    input#inputOrgAddress.form-control(type='address', placeholder='Address', name="OrgAddress", required='', autofocus='')
                                     
                                     button.btn.btn-lg.btn-primary.btn-block(type='submit') Submit
-                                

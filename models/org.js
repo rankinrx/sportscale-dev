@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 
-var SchoolSchema = mongoose.Schema({
+var Schema = mongoose.Schema;
+
+var OrgSchema = mongoose.Schema({
 	name: {
 		type: String,
 		required: true,
@@ -14,10 +16,9 @@ var SchoolSchema = mongoose.Schema({
 	address: {
 		type: String,
 		trim: true
-	},
-
+	}
 
 });
 
-var School = module.exports = mongoose.model('School', SchoolSchema);
+var Org = module.exports = mongoose.model('Org', OrgSchema);
 

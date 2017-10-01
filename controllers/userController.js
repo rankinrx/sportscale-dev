@@ -8,7 +8,6 @@ exports.user_register_get = function (req, res) {
     res.render('register');
 };
 
-
 exports.user_register_post = function (req, res) {
     // Grab data from body of the html document
     var name = req.body.name;

@@ -5,6 +5,7 @@ var router = express.Router();
 var overview_controller = require('../controllers/overviewController');
 var athlete_controller = require('../controllers/athleteController');
 var setting_controller = require('../controllers/settingController');
+var org_controller = require('../controllers/orgController');
 
 
 ///-------------------------------------- OVERVIEW ROUTES --------------------------------------///
@@ -55,11 +56,24 @@ router.get('/settings', ensureAuthenticated, setting_controller.index);
 /* GET request to update Settings. (/dashboard/settings/{id}/update)*/
 router.get('/settings/:id/update', ensureAuthenticated, setting_controller.setting_update_get);
 /* POST request to update Settings  (/dashboard/settings/{id}/update)*/
-router.post('/settings/:id/update', ensureAuthenticated, setting_controller.setting_update_post);
+router.post('/settings/:id/update', setting_controller.setting_update_post);
 /// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ///
 /* POST request to create a new user's Settings  (/dashboard/settings/create/{ID of new user)*/
 // router.post('/settings/create/:newId', ensureAuthenticated, setting_controller.setting_create_post);
 
+
+///------------------------------------- ORG ROUTES --------------------------------------///
+
+/* POST request for creating new org */
+router.post('/org/create', ensureAuthenticated, org_controller.org_create_post);
+// /* GET request for list of all orgs. */
+// router.get('/orgs', ensureAuthenticated, org_controller.index);
+// /// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ///
+// /* GET request for orgs of a specific user. */
+// router.get('/orgs/:id', ensureAuthenticated, org_controller.org_get);
+/* POST request for orgs of a specific user. */
+router.get('/org/:id', ensureAuthenticated, org_controller.org_get_one);
+/// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ///
 
 
 ///---------------------------------------- FUNCTIONS -----------------------------------------///

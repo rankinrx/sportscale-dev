@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var moment = require('moment'); //for date handling
 
 var Schema = mongoose.Schema;
 
@@ -7,10 +8,6 @@ var WeightSchema = mongoose.Schema({
 	athlete: {
 		type: Schema.ObjectId,
 		ref: 'Athlete',
-		required: true
-	},
-	time: {
-		type:Date,
 		required: true
 	},
 	weight: {
@@ -37,18 +34,18 @@ WeightSchema
 
 // Virtual for date weight was created
 WeightSchema
-	.virtual('time_yyyy_mm_dd')
+	.virtual('date_mm_dd_yyyy')
 	.get(function () {
-		time = this._id.getTimestamp();
-		return time
+		dateTime = this._id.getTimestamp();
+		return moment.utc(this.dateTime).format('MM/DD/YYYY');
 		//return moment(time).format('YYYY-MM-DD');
 	});
 
 WeightSchema
 	.virtual('time_hh_mm_a')
 	.get(function () {
-		time = this._id.getTimestamp();
-		return moment(time).format('h:mm a');
+		dateTime = this._id.getTimestamp();
+		return moment(dateTime).format('h:mm a');
 	});
 
 var Weight = module.exports = mongoose.model('Weight', WeightSchema);
